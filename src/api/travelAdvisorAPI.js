@@ -16,9 +16,9 @@ export const getPlacesData = async (type, sw, ne) => {
       },
     });
 
-    return data;
+    return data?.filter((place) => (place.name && place.num_reviews > 0));
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -26,7 +26,9 @@ export const getWeatherData = async (lat, lng) => {
   try {
     if (lat && lng) {
       const { data } = await axios.get('https://open-weather-map27.p.rapidapi.com/weather', {
-        params: { lat, lon: lng },
+        params: { 
+          lat:lat,
+          lon: lng },
         headers: {
           'x-rapidapi-key': process.env.REACT_APP_RAPID_API_WEATHER_API_KEY,
           'x-rapidapi-host': 'open-weather-map27.p.rapidapi.com',
@@ -36,6 +38,6 @@ export const getWeatherData = async (lat, lng) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
